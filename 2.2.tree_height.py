@@ -1,14 +1,14 @@
-# решение через список родителей (снизу-вверх)
+# solution through the list of parents (bottom-up)
 def get_height(in1, in2):
 
-    # получаем количество вершин и список родителей
+    # get the number of vertices and the list of parents
     n = int(in1)
     parents = list(map(int, in2.split(" ")))
 
-    # задаем словарь для хранения расстояний от вершины до корня (уровни дерева)
+    # set a dictionary to store the distances from the vertex to the root (tree levels)
     levels = {}
 
-    # идем вверх по дереву и считаем уровень вершины
+    # go up the tree and count the level of the vertex
     def up(v):
         parent = parents[v]
         if parent == -1:
@@ -17,7 +17,7 @@ def get_height(in1, in2):
             levels[v] = up(parent) + 1
         return levels[v]
 
-    # находим максимальный уровень вершин, пройдя по всем вершинам
+    # find the maximum level of the vertices by going through all the vertices
     max_level = 0
     for v in range(n):
         max_level = max(max_level, up(v))
@@ -25,15 +25,15 @@ def get_height(in1, in2):
     return max_level
 
 
-# решение через список детей (сверху-вниз)
+# solution through the list of children (top-down)
 def get_height_2(in1, in2):
     from collections import deque
 
-    # получаем количество вершин и список родителей
+    # get the number of vertices and the list of parents
     n = int(in1)
     parents = list(map(int, in2.split(" ")))
 
-    # по списку родителей строим список детей и получаем номер корня
+    # according to the list of parents, we build a list of children and get the root number
     graph = [[] for _ in range(n)]
     num_root = -1
     for i, v in enumerate(parents):
@@ -42,22 +42,23 @@ def get_height_2(in1, in2):
         else:
             num_root = i
 
-    # используем стек
+    # initialize the stack
     q = deque()
-    # кладем корень в стек
+    # put the root on the stack
     q.append((num_root, 1))
     max_height = 1
 
-    # пока очередь не пустая
+    # until the queue is empty
     while q:
-        # извлекаем первый элемент очереди
+        # retrieve the first element of the queue
         head = q.popleft()
 
-        # если есть дочерние элементы
+        # if there are child elements
         if graph[head[0]]:
             height = head[1] + 1
 
-            # проходим по всем дочерним элементам и помещаем их очередь, параллельно увеличивая индекс высоты
+            # iterate through all the child elements and queue them up
+            # while increasing the height index in parallel
             for child in graph[head[0]]:
                q.append((child, height))
             max_height = max(max_height, height)
@@ -66,8 +67,9 @@ def get_height_2(in1, in2):
 
 
 def main():
-    # получаем высоту дерева
+    # get the height of the tree
     print(get_height(input(), input()))
+    #print(get_height_2(input(), input()))
 
 
 def test():
@@ -76,3 +78,4 @@ def test():
 
 if __name__ == "__main__":
     main()
+    # test()

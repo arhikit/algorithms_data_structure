@@ -1,26 +1,27 @@
 def process_packages(size, n, packages):
 
-    # используем переменную buffer для хранения информации о пакетах в обработке: (arrival, arrival + duration)
+    # use the buffer variable to store information about packets in processing: (arrival, arrival + duration)
     buffer = [(-1, -1) for _ in range(size)]
-    # инициализуем переменные для хранения текущего положения в массиве и текущего времени прибытия
+    # initialize variables to store the current position in the array and the current arrival time
     cur_pos, cur_arr = 0, -1
 
-    # выходные данные: время обработки пакетов
+    # output: packet processing time
     output = []
 
-    # считываем построчно пакеты
+    # read packets line by line
     for arr, dur in ((package[0], package[1]) for package in packages):
 
-        # сдвигаем текущее время прибытия
+        # shift the current arrival time
         if cur_arr < arr:
             cur_arr = arr
 
-        # если буфер полностью заполнен в момент поступления пакета:
-        # заполнена текущая позиция в буфере и arrival пакета раньше, чем завершение обработки текущего пакета,
-        # то пакет будет полностью отброшен
+        # if the buffer is full when the packet arrives:
+        # the current position in the buffer is full
+        # and the packet arrives before the completion of the processing of the current packet,
+        # then the packet will be completely discarded
         if buffer[cur_pos % size][0] != -1 and arr < buffer[cur_pos % size][1]:
             output.append(-1)
-        # иначе помещаем пакет в буфер
+        # else put the packet in the buffer
         else:
             output.append(cur_arr)
             buffer[cur_pos % size] = (cur_arr, cur_arr + dur)
@@ -31,15 +32,15 @@ def process_packages(size, n, packages):
 
 
 def main():
-    # получаем размер буфера и число пакетов
+    # get buffer size and number of packets
     size, n = map(int, input().split())
 
-    # считываем список пакетов
+    # read package list
     packages = []
     for arr, dur in (map(int, input().split()) for _ in range(n)):
         packages.append([arr, dur])
 
-    # выводим построчно время обработки пакетов
+    # output the packet processing time line by line
     print("\n".join(map(str, process_packages(size, n, packages))))
 
 
@@ -109,3 +110,4 @@ def test():
 
 if __name__ == "__main__":
     main()
+    #test()

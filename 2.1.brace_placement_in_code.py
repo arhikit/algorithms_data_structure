@@ -4,24 +4,24 @@ def check(s):
     braces = {')': '(', '}': '{', ']': '['}
     stack = deque()
     for i, c in enumerate(s, start=1):
-        #  если передана открывающаяся скобка, то кладем ее в стек
+        #  if an opening parenthesis is passed, push it onto the stack
         if c in braces.values():
             stack.append((c, i))
 
-        # если передана закрывающаяся скобка, то проверяем ее:
-        # 1. стек с открывающимися скобками может быть пустой
-        # 2. последняя открывающая скобка может не соответствовать закрывающейся
+        # if a closing bracket is passed, check it:
+        # 1. stack with opening brackets can be empty
+        # 2. the last opening brace may not match the closing brace
         elif c in braces and (not stack or braces[c] != stack.pop()[0]):
             return i
 
-    # если стек не пуст, то возвращаем последнюю открывающуся скобку
+    # if the stack is not empty, return the last opening parenthesis.
     return stack.pop()[1] if stack else 'Success'
 
 
 def main():
-    # получаем строку для проверки
+    # get string to test
     s = input()
-    # проверяем переданную строку
+    # check the given string
     print(check(s))
 
 
@@ -43,3 +43,4 @@ def test():
 
 if __name__ == "__main__":
     main()
+    #test()
